@@ -1,95 +1,108 @@
-# 💳 Credit Card Fraud Detection using Python & Machine Learning
+# 💳 Credit Card Fraud Detection with Python & Machine Learning
 
-## 📌 Project Overview
-Credit card fraud detection is a critical task for banks and financial institutions to protect customers from unauthorized transactions.  
-In this project, we develop a **binary classifier** to predict whether a given transaction is fraudulent or genuine.
+## 📌 Overview
+This project implements **Credit Card Fraud Detection** using **Python** and various **Machine Learning algorithms**.  
+The goal is to accurately classify transactions as **fraudulent** or **genuine**, even in the presence of severe **class imbalance**.
 
-This project explores **data preprocessing, exploratory data analysis (EDA), class imbalance handling**, and applies **Machine Learning algorithms** such as **Decision Trees** and **Random Forests**.
+We explore multiple algorithms (Decision Tree, Random Forest) and address imbalance using **SMOTE oversampling** to improve model performance.
 
 ---
 
 ## 📂 Dataset
 - **Source:** [Anonymized Credit Card Transactions for Fraud Detection](https://www.kaggle.com/mlg-ulb/creditcardfraud)
-- **Shape:** `284,807` transactions  
-- **Fraud Cases:** Only `492` (~0.17%), causing **severe class imbalance**  
-- **Features:** 31 total  
-  - 28 anonymized features from **PCA transformation**
-  - `Time` (removed during preprocessing)  
-  - `Amount` (normalized)  
-  - `Class` (0 = Genuine, 1 = Fraud)  
+- **Total Transactions:** 284,807  
+- **Fraudulent Transactions:** 492 (~0.17%)  
+- **Features:** 31 (28 PCA-transformed, plus `Time` and `Amount`)
+
+⚠ Due to confidentiality, most features are anonymized via **PCA transformation**.
 
 ---
 
-## 🛠 Tools & Libraries
-- **Python** 3.x
-- **NumPy** 1.19.2
-- **Pandas**
-- **Scikit-learn** 0.24.1
-- **Matplotlib** 3.3.4
-- **Imbalanced-learn (imblearn)** 0.8.0
-- **Collections & Itertools**
+## 🛠 Tools & Libraries Used
+- Python 3.x
+- **Numpy** – 1.19.2  
+- **Pandas** – 1.x  
+- **Scikit-learn** – 0.24.1  
+- **Matplotlib** – 3.3.4  
+- **Imbalanced-learn (imblearn)** – 0.8.0  
+- Collections, Itertools  
 
 ---
 
-## 📊 Exploratory Data Analysis (EDA)
+## 🔍 Project Workflow
 
-### Class Distribution
-Genuine transactions dominate the dataset.  
-Fraud accounts for **less than 1%**.
+### 1️⃣ Exploratory Data Analysis (EDA)
+- Checked for missing values (none found ✅)
+- Analyzed **class distribution** → Found strong imbalance (>99% genuine transactions)
+- Scaled `Amount` feature using `StandardScaler`
+- Dropped `Time` column (irrelevant)
 
-**Bar chart of class distribution:**
-![Class Imbalance](images/class_imbalance.png)
-
----
-
-## 🔄 Data Preprocessing
-1. **Checked for null values** (none found ✅)
-2. **Normalized the `Amount` feature** using `StandardScaler`
-3. **Dropped irrelevant columns** (`Time`, original `Amount`)
-4. **Split dataset** into train (70%) and test (30%)
+📊 **Class Distribution Plot:**  
+![Class Distribution](images/class_distribution.png)
 
 ---
 
-## 🤖 Machine Learning Models
+### 2️⃣ Data Preprocessing
+- Normalized `Amount` → `NormalizedAmount`
+- Split dataset into **train (70%)** and **test (30%)** sets
+- Addressed class imbalance using **SMOTE oversampling**
 
-### Models Used:
+📊 **After SMOTE:**  
+Balanced classes with equal number of fraudulent and genuine samples.
+
+---
+
+### 3️⃣ Model Building
+Implemented:
 - **Decision Tree Classifier**
 - **Random Forest Classifier**
 
-Both models were trained and evaluated.  
-The **Random Forest** showed better performance on imbalanced data.
+📌 Random Forest slightly outperformed Decision Tree before and after applying SMOTE.
 
 ---
 
-## 📈 Model Performance (Before Handling Imbalance)
+### 4️⃣ Model Evaluation
+Metrics used:
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- Confusion Matrix
 
-| Model          | Accuracy | Precision | Recall | F1-score |
-|----------------|----------|-----------|--------|----------|
-| Decision Tree  | ~99%     | ~71%      | ~67%   | ~69%     |
-| Random Forest  | ~99.9%   | ~96%      | ~88%   | ~92%     |
+#### 📊 Confusion Matrix - Decision Tree (Before SMOTE)
+![Confusion Matrix DT](images/confusion_matrix_dt.png)
 
----
+#### 📊 Confusion Matrix - Random Forest (Before SMOTE)
+![Confusion Matrix RF](images/confusion_matrix_rf.png)
 
-## ⚖ Handling Class Imbalance
-To address the imbalance, we used **SMOTE (Synthetic Minority Oversampling Technique)** from `imblearn`.
-
-After applying SMOTE:
-- Balanced dataset: equal number of fraud and genuine transactions
-- Retrained **Random Forest Classifier**
-- Achieved **higher recall & F1-score**
-
-**Confusion Matrix After SMOTE:**
-![Confusion Matrix After SMOTE](images/confusion_matrix_smote.png)
+#### 📊 Confusion Matrix - Random Forest (After SMOTE)
+![Confusion Matrix RF SMOTE](images/confusion_matrix_rf_smote.png)
 
 ---
 
-## 🏆 Final Results
-The **Random Forest Classifier** after SMOTE achieved:
-- **High Accuracy**
-- **Improved Recall** for fraud detection
-- Balanced performance across metrics
+## 📈 Results
+| Model               | Accuracy | Precision | Recall | F1-score |
+|---------------------|----------|-----------|--------|----------|
+| Decision Tree       | XX%      | XX%       | XX%    | XX%      |
+| Random Forest       | XX%      | XX%       | XX%    | XX%      |
+| Random Forest + SMOTE | XX%    | XX%       | XX%    | XX%      |
+
+✅ **Random Forest with SMOTE achieved the best balance between Recall and Precision**, making it more suitable for fraud detection where catching fraudulent cases is crucial.
 
 ---
 
-## 📂 Project Structure
+## 🚀 How to Run the Project
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/credit-card-fraud-detection.git
+
+# Navigate to the project directory
+cd credit-card-fraud-detection
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the script
+python credit_card_fraud_detection.py
+
 
