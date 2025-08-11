@@ -1,310 +1,95 @@
-This project implements an unsupervised anomaly detection approach to identify fraudulent credit card transactions using a Deep Autoencoder built with Keras and TensorFlow.
-The model is trained exclusively on normal transactions to learn their patterns, and fraud detection is performed by measuring reconstruction error. Transactions with an error above a chosen threshold are flagged as potential frauds.
+# 💳 Credit Card Fraud Detection using Python & Machine Learning
 
-📂 Dataset
-Source: Kaggle Credit Card Fraud Detection Dataset
+## 📌 Project Overview
+Credit card fraud detection is a critical task for banks and financial institutions to protect customers from unauthorized transactions.  
+In this project, we develop a **binary classifier** to predict whether a given transaction is fraudulent or genuine.
 
-Description: Transactions made by European cardholders over two days, with:
+This project explores **data preprocessing, exploratory data analysis (EDA), class imbalance handling**, and applies **Machine Learning algorithms** such as **Decision Trees** and **Random Forests**.
 
-284,807 total transactions
+---
 
-492 frauds (~0.172% of dataset — highly imbalanced)
+## 📂 Dataset
+- **Source:** [Anonymized Credit Card Transactions for Fraud Detection](https://www.kaggle.com/mlg-ulb/creditcardfraud)
+- **Shape:** `284,807` transactions  
+- **Fraud Cases:** Only `492` (~0.17%), causing **severe class imbalance**  
+- **Features:** 31 total  
+  - 28 anonymized features from **PCA transformation**
+  - `Time` (removed during preprocessing)  
+  - `Amount` (normalized)  
+  - `Class` (0 = Genuine, 1 = Fraud)  
 
-Features:
+---
 
-Numerical, mostly PCA-transformed for privacy
+## 🛠 Tools & Libraries
+- **Python** 3.x
+- **NumPy** 1.19.2
+- **Pandas**
+- **Scikit-learn** 0.24.1
+- **Matplotlib** 3.3.4
+- **Imbalanced-learn (imblearn)** 0.8.0
+- **Collections & Itertools**
 
-Time — seconds since first transaction
+---
 
-Amount — transaction amount
+## 📊 Exploratory Data Analysis (EDA)
 
-Class — 0 = Normal, 1 = Fraud
+### Class Distribution
+Genuine transactions dominate the dataset.  
+Fraud accounts for **less than 1%**.
 
-🛠️ Technologies Used
-Languages: Python
+**Bar chart of class distribution:**
+![Class Imbalance](images/class_imbalance.png)
 
-Libraries:
+---
 
-Data Processing: pandas, numpy, scikit-learn, scipy
+## 🔄 Data Preprocessing
+1. **Checked for null values** (none found ✅)
+2. **Normalized the `Amount` feature** using `StandardScaler`
+3. **Dropped irrelevant columns** (`Time`, original `Amount`)
+4. **Split dataset** into train (70%) and test (30%)
 
-Visualization: matplotlib, seaborn
+---
 
-Deep Learning: Keras (with TensorFlow backend)
+## 🤖 Machine Learning Models
 
-⚙️ Approach
-Data Preprocessing
+### Models Used:
+- **Decision Tree Classifier**
+- **Random Forest Classifier**
 
-Dropped Time column
+Both models were trained and evaluated.  
+The **Random Forest** showed better performance on imbalanced data.
 
-Standardized Amount using StandardScaler
+---
 
-Split data into train (only normal transactions) and test sets
+## 📈 Model Performance (Before Handling Imbalance)
 
-Model Architecture
+| Model          | Accuracy | Precision | Recall | F1-score |
+|----------------|----------|-----------|--------|----------|
+| Decision Tree  | ~99%     | ~71%      | ~67%   | ~69%     |
+| Random Forest  | ~99.9%   | ~96%      | ~88%   | ~92%     |
 
-Input Layer: 29 neurons
+---
 
-Encoder: Dense(14, tanh, L1 regularization) → Dense(7, relu)
+## ⚖ Handling Class Imbalance
+To address the imbalance, we used **SMOTE (Synthetic Minority Oversampling Technique)** from `imblearn`.
 
-Decoder: Dense(7, tanh) → Dense(29, relu)
+After applying SMOTE:
+- Balanced dataset: equal number of fraud and genuine transactions
+- Retrained **Random Forest Classifier**
+- Achieved **higher recall & F1-score**
 
-Loss: Mean Squared Error
+**Confusion Matrix After SMOTE:**
+![Confusion Matrix After SMOTE](images/confusion_matrix_smote.png)
 
-Optimizer: Adam
+---
 
-Training
+## 🏆 Final Results
+The **Random Forest Classifier** after SMOTE achieved:
+- **High Accuracy**
+- **Improved Recall** for fraud detection
+- Balanced performance across metrics
 
-100 epochs, batch size = 32
+---
 
-Used ModelCheckpoint to save the best model
+## 📂 Project Structure
 
-TensorBoard logging for monitoring
-
-Evaluation
-
-Calculated reconstruction error
-
-Determined threshold for fraud detection
-
-Evaluated with Confusion Matrix, ROC curve, Precision-Recall curve
-
-📊 Results
-ROC AUC: High separation between normal and fraud transactions
-
-Precision-Recall Trade-off:
-
-Higher threshold → higher precision, lower recall
-
-Lower threshold → higher recall, lower precision
-
-Model flagged most fraud cases but also produced false positives (normal transactions predicted as fraud)
-
-🚀 Usage
-1️⃣ Install dependencies
-bash
-Copy
-Edit
-pip install pandas numpy matplotlib seaborn scikit-learn tensorflow keras
-2️⃣ Download dataset
-bash
-Copy
-Edit
-kaggle datasets download -d mlg-ulb/creditcardfraud
-unzip creditcardfraud.zip -d data/
-3️⃣ Run the notebook/script
-bash
-Copy
-Edit
-python fraud_detection_autoencoder.py
-📈 Example Plots
-Transaction Amount Distribution (Fraud vs Normal)
-
-ROC Curve
-
-Precision-Recall Curve
-
-Confusion Matrix
-
-📌 Key Insights
-Autoencoders can effectively learn the structure of normal data and detect anomalies.
-
-Proper threshold tuning is crucial to balance between false positives and missed frauds.
-
-The model works best when fraud patterns are significantly different from normal patterns.
-
-💼 Project Showcase
-GitHub Repository: [Add your repository link here]
-
-Live Notebook: [Google Colab or Jupyter Notebook link here]
-
-Skills Demonstrated:
-
-Data preprocessing & cleaning
-
-Building and training deep neural networks
-
-Unsupervised anomaly detection
-
-Model evaluation (ROC, PR curves)
-
-Working with imbalanced datasets
-
-Relevant For:
-
-Data Analyst roles (model evaluation, data visualization)
-
-Data Scientist roles (deep learning, anomaly detection)
-
-Machine Learning Engineer roles (model deployment potential)
-
-📜 References
-Building Autoencoders in Keras
-
-Stanford Tutorial on Autoencoders
-
-Kaggle Dataset
-
-If you want, I can now write you a short bullet-point project description for your resume so it perfectly matches this README and uses ATS-friendly keywords. That way, your resume and GitHub will reinforce each other.
-
-
-
-
-
-
-
-
-You said:
-i want it for github  just copy paste for readme
-
-
-ChatGPT said:
-Got it ✅
-Here’s your final copy-paste-ready README.md for GitHub.
-
-Credit Card Fraud Detection using Autoencoders in Keras
-📌 Overview
-This project implements an unsupervised anomaly detection approach to identify fraudulent credit card transactions using a Deep Autoencoder built with Keras and TensorFlow.
-The model is trained exclusively on normal transactions to learn their patterns, and fraud detection is performed by measuring reconstruction error. Transactions with an error above a chosen threshold are flagged as potential frauds.
-
-📂 Dataset
-Source: Kaggle Credit Card Fraud Detection Dataset
-
-Description: Transactions made by European cardholders over two days, with:
-
-284,807 total transactions
-
-492 frauds (~0.172% of dataset — highly imbalanced)
-
-Features:
-
-Numerical, mostly PCA-transformed for privacy
-
-Time — seconds since first transaction
-
-Amount — transaction amount
-
-Class — 0 = Normal, 1 = Fraud
-
-🛠️ Technologies Used
-Languages: Python
-
-Libraries:
-
-Data Processing: pandas, numpy, scikit-learn, scipy
-
-Visualization: matplotlib, seaborn
-
-Deep Learning: Keras (with TensorFlow backend)
-
-⚙️ Approach
-Data Preprocessing
-
-Dropped Time column
-
-Standardized Amount using StandardScaler
-
-Split data into train (only normal transactions) and test sets
-
-Model Architecture
-
-Input Layer: 29 neurons
-
-Encoder: Dense(14, tanh, L1 regularization) → Dense(7, relu)
-
-Decoder: Dense(7, tanh) → Dense(29, relu)
-
-Loss: Mean Squared Error
-
-Optimizer: Adam
-
-Training
-
-100 epochs, batch size = 32
-
-Used ModelCheckpoint to save the best model
-
-TensorBoard logging for monitoring
-
-Evaluation
-
-Calculated reconstruction error
-
-Determined threshold for fraud detection
-
-Evaluated with Confusion Matrix, ROC curve, Precision-Recall curve
-
-📊 Results
-ROC AUC: High separation between normal and fraud transactions
-
-Precision-Recall Trade-off:
-
-Higher threshold → higher precision, lower recall
-
-Lower threshold → higher recall, lower precision
-
-Model flagged most fraud cases but also produced false positives (normal transactions predicted as fraud)
-
-🚀 Usage
-1️⃣ Install dependencies
-bash
-Copy
-Edit
-pip install pandas numpy matplotlib seaborn scikit-learn tensorflow keras
-2️⃣ Download dataset
-bash
-Copy
-Edit
-kaggle datasets download -d mlg-ulb/creditcardfraud
-unzip creditcardfraud.zip -d data/
-3️⃣ Run the notebook/script
-bash
-Copy
-Edit
-python fraud_detection_autoencoder.py
-📈 Example Plots
-Transaction Amount Distribution (Fraud vs Normal)
-
-ROC Curve
-
-Precision-Recall Curve
-
-Confusion Matrix
-
-📌 Key Insights
-Autoencoders can effectively learn the structure of normal data and detect anomalies.
-
-Proper threshold tuning is crucial to balance between false positives and missed frauds.
-
-The model works best when fraud patterns are significantly different from normal patterns.
-
-💼 Project Showcase
-GitHub Repository: [Add your repository link here]
-
-Live Notebook: [Google Colab or Jupyter Notebook link here]
-
-Skills Demonstrated:
-
-Data preprocessing & cleaning
-
-Building and training deep neural networks
-
-Unsupervised anomaly detection
-
-Model evaluation (ROC, PR curves)
-
-Working with imbalanced datasets
-
-Relevant For:
-
-Data Analyst roles (model evaluation, data visualization)
-
-Data Scientist roles (deep learning, anomaly detection)
-
-Machine Learning Engineer roles (model deployment potential)
-
-📜 References
-Building Autoencoders in Keras
-
-Stanford Tutorial on Autoencoders
-
-Kaggle Dataset
